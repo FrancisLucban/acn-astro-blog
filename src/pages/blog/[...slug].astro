@@ -1,62 +1,31 @@
-
 ---
-import '../../styles/global.css';
-import { getCollection, render } from 'astro:content';
+import BlogPost from '../../layouts/BlogPost.astro';
+import { type CollectionEntry, getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
     params: { slug: post.id },
-    props: { post },
+    props: post,
   }));
 }
 
-const { post } = Astro.props;
+type Props = CollectionEntry<'blog'>;
+const post = Astro.props;
 const { Content } = await render(post);
-const { title, excerpt, category, number, author, readingTime, image, imageAlt } = post.data;
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="bg-bg font-body text-text">
-    <header class="border-b border-rule px-6 pt-6 sm:px-12">
-      <div class="mb-5 flex items-center justify-between">
-        <a href="/" class="font-display text-[1.1rem] font-bold tracking-[0.3em]">ASCALON</a>
-      </div>
-    </header>
-
-    <article class="mx-auto max-w-2xl px-6 py-12 sm:px-0">
-      <p class="mb-4 flex items-baseline gap-3 font-mono text-[0.7rem] tracking-wider">
-        <span class="font-medium text-accent">{category}</span>
-        <span class="text-text-muted">{number}</span>
-      </p>
-
-      <h1 class="mb-4 font-display text-4xl leading-tight font-semibold text-text">
-        {title}
-      </h1>
-
-      <p class="mb-8 flex items-baseline justify-between font-mono text-[0.7rem] tracking-wide text-text-faint">
-        <span>{author}</span>
-        <span>{readingTime}</span>
-      </p>
-
-      <div class="mb-10 aspect-video w-full overflow-hidden bg-neutral-900">
-        <img src={image} alt={imageAlt} class="h-full w-full object-cover" />
-      </div>
-
-      <div class="prose prose-invert max-w-none font-body text-text-muted prose-headings:font-display prose-headings:text-text prose-strong:text-text">
-        <Content />
-      </div>
-    </article>
-  </body>
-</html>
+<BlogPost
+  title={post.data.title};
+  excerpt={post.data.excerpt};
+  category={post.data.category};
+  number={post.data.number};
+  author={post.data.author};
+  readingTime={post.data.readingTime};
+  image={post.data.image};
+  imageAlt={post.data.imageAlt};
+  date={post.data.date};
+  draft={post.data.draft};
+>
+  <Content />
+</BlogPost>

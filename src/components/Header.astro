@@ -1,24 +1,18 @@
-<header class="sticky top-0 z-100 bg-(--bg) backdrop-blur-md border-b border-(--border)">
-    <div class="max-w-7xl mx-auto px-10 h-14 flex items-center justify-between">
+<header class="border-b border-rule px-6 pt-6 sm:px-12 ">
+  <div class="mb-5 flex items-baseline justify-between">
       <div class="flex items-center gap-10">
-        <a href="#" class="font-mono text-[0.7rem] text-(--fg) tracking-[0.2em] uppercase no-underline">Ascalon</a>
+        <a class="font-display text-[1.1rem] font-bold uppercase tracking-[0.3em] cursor-pointer no-underline text-white transition-colors duration-200 ease-in-out hover:text-neutral-400" href="/">
+          Ascalon
+        </a>
       </div>
-      <div style="display:flex;align-items:center;gap:1rem">
-        <button class="font-mono text-[0.7rem] tracking-[0.12em] uppercase border border-(--border) bg-transparent text-(--fg) px-4 py-[0.35rem] cursor-pointer transition-[border-color,color] duration-200 hover:border-(--accent) hover:text-(--accent)">Subscribe</button>
-        <button class="flex md:hidden flex-col gap-1.25 bg-transparent border-none cursor-pointer p-1 group" id="hamburger" aria-label="Toggle menu">
-            <span class="block w-5 h-px bg-(--fg) transition-[transform,opacity] duration-300 group-[.open]:translate-y-1.5 group-[.open]:rotate-45"></span>
-            <span class="block w-5 h-px bg-(--fg) transition-[transform,opacity] duration-300 group-[.open]:opacity-0"></span>
-            <span class="block w-5 h-px bg-(--fg) transition-[transform,opacity] duration-300 group-[.open]:-translate-y-1.5 group-[.open]:-rotate-45"></span>
-        </button>
-
-      </div>
-    </div>
-    <div class="hidden [&.open]:flex flex-col gap-3 px-10 py-4 border-t border-(--border) bg-(--bg)" id="mobileMenu">
-      <button class="nav-link" data-cat="All">All</button>
-      <button class="nav-link" data-cat="Culture">Culture</button>
-      <button class="nav-link" data-cat="Technology">Technology</button>
-      <button class="nav-link" data-cat="Politics">Politics</button>
-      <button class="nav-link" data-cat="Science">Science</button>
-      <button class="nav-link" data-cat="Arts">Arts</button>
-    </div>
-  </header>
+      <nav class="flex gap-7 overflow-x-auto pb-3.5">
+        <!-- Links no longer use border utilities -->
+        <a href="#" class="font-mono text-[0.7rem] tracking-wider text-accent transition-all duration-300 shadow-[inset_0_-2px_0_0_currentColor]">ALL</a>
+        <a href="#" class="font-mono text-[0.7rem] tracking-wider text-text-faint transition-all duration-300 hover:text-accent hover:shadow-[inset_0_-2px_0_0_currentColor]">CULTURE</a>
+        <a href="#" class="font-mono text-[0.7rem] tracking-wider text-text-faint transition-all duration-300 hover:text-accent hover:shadow-[inset_0_-2px_0_0_currentColor]">TECHNOLOGY</a>
+        <a href="#" class="font-mono text-[0.7rem] tracking-wider text-text-faint transition-all duration-300 hover:text-accent hover:shadow-[inset_0_-2px_0_0_currentColor]">POLITICS</a>
+        <a href="#" class="font-mono text-[0.7rem] tracking-wider text-text-faint transition-all duration-300 hover:text-accent hover:shadow-[inset_0_-2px_0_0_currentColor]">SCIENCE</a>
+        <a href="#" class="font-mono text-[0.7rem] tracking-wider text-text-faint transition-all duration-300 hover:text-accent hover:shadow-[inset_0_-2px_0_0_currentColor]">ARTS</a>
+      </nav>
+  </div>
+</header>

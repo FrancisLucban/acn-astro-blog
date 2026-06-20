@@ -1,47 +1,16 @@
 ---
+import { getCollection, type CollectionEntry } from 'astro:content';
 import '../styles/global.css';
-import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
 import PostCard from '../components/PostCard.astro';
 
 const posts = await getCollection('blog');
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ascalon — Blog</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="bg-bg font-body text-text">
-    <header class="border-b border-rule px-6 pt-6 sm:px-12">
-      <div class="mb-5 flex items-center justify-between">
-        <span class="font-display text-[1.1rem] font-bold tracking-[0.3em]">Ascalon</span>
-        <button
-          class="border border-text px-[1.1rem] py-2 font-mono text-[0.7rem] tracking-wider text-text transition-colors hover:bg-text hover:text-bg"
-        >
-          SUBSCRIBE
-        </button>
-      </div>
-      <nav class="flex gap-7 overflow-x-auto pb-3.5">
-        <a href="#" class="border-b-2 border-accent pb-3.5 font-mono text-[0.7rem] tracking-wider text-accent">ALL</a>
-        <a href="#" class="pb-3.5 font-mono text-[0.7rem] tracking-wider text-text-faint">CULTURE</a>
-        <a href="#" class="pb-3.5 font-mono text-[0.7rem] tracking-wider text-text-faint">TECHNOLOGY</a>
-        <a href="#" class="pb-3.5 font-mono text-[0.7rem] tracking-wider text-text-faint">POLITICS</a>
-        <a href="#" class="pb-3.5 font-mono text-[0.7rem] tracking-wider text-text-faint">SCIENCE</a>
-        <a href="#" class="pb-3.5 font-mono text-[0.7rem] tracking-wider text-text-faint">ARTS</a>
-      </nav>
-    </header>
-
+<Layout>
     <main class="grid grid-cols-1 gap-x-8 gap-y-10 px-6 pt-10 pb-16 sm:px-12 md:grid-cols-3">
         {posts.map((post) => (
           <PostCard {...post.data} href={`/blog/${post.id}`} />
         ))}
     </main>
-  </body>
-</html>
+</Layout>

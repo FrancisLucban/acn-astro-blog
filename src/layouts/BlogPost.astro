@@ -1,0 +1,45 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  excerpt: string;
+  category: string;
+  number: string;
+  author: string;
+  readingTime: string;
+  image: string;
+  imageAlt: string;
+  date: Date;
+  draft: boolean;
+}
+
+const { title, excerpt, category, number, author, readingTime, image, imageAlt, date, draft } = Astro.props
+
+---
+
+<Layout title={title}>
+    <article class="mx-auto max-w-2xl px-6 py-12 sm:px-0">
+        <p class="mb-4 flex items-baseline gap-3 font-mono text-[0.7rem] tracking-wider">
+            <span class="font-medium text-accent">{category}</span>
+            <span class="text-text-muted">{number}</span>
+        </p>
+
+        <h1 class="mb-4 font-display text-4xl leading-tight font-semibold text-text">
+            {title}
+        </h1>
+
+        <p class="mb-8 flex items-baseline justify-between font-mono text-[0.7rem] tracking-wide text-text-faint">
+            <span>{author}</span>
+            <span>{readingTime}</span>
+        </p>
+
+        <div class="mb-10 aspect-video w-full overflow-hidden bg-neutral-900">
+            <img src={image} alt={imageAlt} class="h-full w-full object-cover" />
+        </div>
+
+        <div class="prose prose-invert max-w-none font-body text-text-muted prose-headings:font-display prose-headings:text-text prose-strong:text-text">
+            <slot />
+        </div>
+    </article>
+</Layout>
