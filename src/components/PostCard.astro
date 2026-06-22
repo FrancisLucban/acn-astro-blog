@@ -9,6 +9,7 @@ interface Props {
     image: string;
     imageAlt: string;
     href: string;
+    date: Date
 }
 const {
     category,
@@ -20,7 +21,15 @@ const {
     image,
     imageAlt,
     href,
+    date
 } = Astro.props;
+
+// month-dd-year format
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
 
 const formattedReadingTime = `${readingTime} min read`;
 ---
