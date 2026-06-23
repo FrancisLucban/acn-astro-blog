@@ -8,16 +8,20 @@ import Featured from '../components/Featured.astro';
 const posts = await getCollection('blog');
 
 const featuredPost = posts.find((post) => post.data.isFeatured);
-
+const editorsPicksPost = posts.filter((post) => post.data.isEditorsPick);
 const regularPosts = posts.filter((post) => !post.data.isFeatured);
 ---
 
 <Layout>
     {featuredPost && (
-        <Featured {...featuredPost.data} href={`/blog/${featuredPost.id}`} />
+      <Featured 
+        featured={featuredPost} 
+        editorsPicks={editorsPicksPost} 
+      />
     )}
+    </section>
     <main class="grid grid-cols-1 gap-x-8 gap-y-10 px-6 pt-10 pb-16 sm:px-12 md:grid-cols-3">
-        {posts.map((post) => (
+        {regularPosts.map((post) => (
           <PostCard {...post.data} href={`/blog/${post.id}`} />
         ))}
     </main>

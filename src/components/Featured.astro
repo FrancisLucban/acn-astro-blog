@@ -1,88 +1,83 @@
 ---
 import { formatError } from 'astro:schema';
+import type { CollectionEntry } from 'astro:content';
 
 interface Props {
-  category: string;
-  number: string;
-  title: string;
-  excerpt: string;
-  author: string;
-  readingTime: number;
-  image: string;
-  imageAlt: string;
-  date: Date; // Added to match your content schema
-  href: string;
+  featured: CollectionEntry<'blog'>;
+  editorsPicks: CollectionEntry<'blog'>[];
 }
 
-const { 
-  category, 
-  number, 
-  title, 
-  excerpt, 
-  author, 
-  readingTime, 
-  image, 
-  imageAlt, 
-  date, 
-  href 
-} = Astro.props;
+const { featured, editorsPicks } = Astro.props;
+const fd = featured.data;
+const ep = editorsPicks;
 
 // month-dd-year format
-const formattedDate = date.toLocaleDateString('en-US', {
+const formattedDate = fd.date.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
 });
 
-const formattedReadingTime = `${readingTime} min read`;
+const formattedReadingTime = `${featured.data.readingTime} min read`;
 
 ---
 <section class="border-b border-(--border) pt-24">
-<a href={href} class="text-inherit no-underline">
-  <div class="mx-auto grid grid-columns-1 gap-10 px-10 py-12 align-start md:grid-cols-[1fr_16rem]">
-    
-    <div class="featured-card group cursor-pointer">
-      
-      <div class="relative mb-6 overflow-hidden bg-(--muted-bg)">
-        <img 
-          src={image} 
-          alt={imageAlt}
-          class="block h-88 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-        />
-        <div class="pointer-events-none absolute inset-0 bg-linear-to-t from-[rgba(15,14,12,0.55)] to-transparent"></div>
-        <span class="absolute left-4 top-4 border border-[rgba(200,169,110,0.4)] bg-[rgba(15,14,12,0.7)] px-2.4 py-1.2 font-mono text-[0.65rem] uppercase tracking-wider text-white backdrop-blur-xs">
-          {category}
-        </span>
-      </div>
+    <a href={`/blog/${featured.id}`} class="text-inherit no-underline">
+        <div class="mx-auto grid grid-columns-1 gap-10 px-10 py-12 align-start md:grid-cols-[1fr_16rem]">
+            <div class="featured-card group cursor-pointer">
+        
+                <div class="relative mb-6 overflow-hidden bg-(--muted-bg)">
+                    <img 
+                    src={fd.image} 
+                    alt={fd.imageAlt}
+                    class="block h-88 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                    />
+                    <div class="pointer-events-none absolute inset-0 bg-linear-to-t from-[rgba(15,14,12,0.55)] to-transparent"></div>
+                    <span class="absolute left-4 top-4 border border-[rgba(200,169,110,0.4)] bg-[rgba(15,14,12,0.7)] px-2.4 py-1.2 font-mono text-[0.65rem] uppercase tracking-wider text-white backdrop-blur-xs">
+                    {fd.category}
+                    </span>
+                </div>
 
-      <div class="flex gap-6">
-        <span class="shrink-0 pt-1 font-mono text-[0.65rem] text-white">001</span>
-        <div>
-          <h2 class="mb-3 font- text-[clamp(1.4rem,3vw,2.25rem)] font-medium leading-tight text-(--fg) transition-colors duration-300 group-hover:text-neutral-400">
-            {title}
-          </h2>
-          <p class="mb-5 max-w-2xl text-[0.875rem] leading-[1.7] text-white">
-            {excerpt}
-          </p>
-          <div class="font-mono meta text-xs text-(--muted-fg) flex gap-2">
-            <span>{author}</span><span class="meta-sep">—</span>
-            <span>{formattedDate}</span><span class="meta-sep">—</span>
-            <span>{formattedReadingTime}</span>
-          </div>
+                <div class="flex gap-6">
+                    <span class="shrink-0 pt-1 font-mono text-[0.65rem] text-white">001</span>
+                    <div>
+                        <h2 class="mb-3 font- text-[clamp(1.4rem,3vw,2.25rem)] font-medium leading-tight text-(--fg) transition-colors duration-300 group-hover:text-neutral-400">
+                            {fd.title}
+                        </h2>
+                        <p class="mb-5 max-w-2xl text-[0.875rem] leading-[1.7] text-white">
+                            {fd.excerpt}
+                        </p>
+                        <div class="font-mono meta text-xs text-(--muted-fg) flex gap-2">
+                            <span>{fd.author}</span><span class="meta-sep">—</span>
+                            <span>{formattedDate}</span><span class="meta-sep">—</span>
+                            <span>{formattedReadingTime}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <p class="sidebar-label font-mono text-xs uppercase tracking-wider text-(--muted-fg) mb-4">
+                Editor's Picks
+                </p>
+                <ul class="sidebar-list space-y-4">
+                    {editorsPicks.map((post) => (
+                    <li class="sidebar-item flex gap-3">
+                        <span class="entry-number font-mono text-[0.65rem] text-(--muted-fg) pt-0.5">
+                        {post.data.number}
+                        </span>
+                        <a href={`/blog/${post.id}`} class="block">
+                            <p class="sidebar-title font-medium text-(--fg) hover:text-(--accent) cursor-pointer">
+                                {post.data.title}
+                            </p>
+                            <p class="sidebar-author text-xs text-(--muted-fg)">
+                                {post.data.author}
+                            </p>
+                        </a>
+                    </li>
+                    ))}
+                </ul>
+            </aside>
         </div>
-      </div>
-    </div>
-
-    <aside class="sidebar">
-      <p class="sidebar-label font-mono text-xs uppercase tracking-wider text-(--muted-fg) mb-4">Editor's Picks</p>
-      <ul class="sidebar-list space-y-4">
-        <li class="sidebar-item flex gap-3"><span class="entry-number font-mono text-[0.65rem] text-(--muted-fg) pt-0.5">007</span><div><p class="sidebar-title font-medium text-(--fg) hover:text-(--accent) cursor-pointer">On the Ethics of Abundance</p><p class="sidebar-author text-xs text-(--muted-fg)">Theo Nakamura</p></div></li>
-        <li class="sidebar-item flex gap-3"><span class="entry-number font-mono text-[0.65rem] text-(--muted-fg) pt-0.5">008</span><div><p class="sidebar-title font-medium text-(--fg) hover:text-(--accent) cursor-pointer">Infrastructure as Political Statement</p><p class="sidebar-author text-xs text-(--muted-fg)">Anya Hoffmann</p></div></li>
-        <li class="sidebar-item flex gap-3"><span class="entry-number font-mono text-[0.65rem] text-(--muted-fg) pt-0.5">009</span><div><p class="sidebar-title font-medium text-(--fg) hover:text-(--accent) cursor-pointer">The Attention Economy Has a Reckoning Coming</p><p class="sidebar-author text-xs text-(--muted-fg)">Darius Mbeki</p></div></li>
-        <li class="sidebar-item flex gap-3"><span class="entry-number font-mono text-[0.65rem] text-(--muted-fg) pt-0.5">010</span><div><p class="sidebar-title font-medium text-(--fg) hover:text-(--accent) cursor-pointer">What Amateur Science Teaches Professionals</p><p class="sidebar-author text-xs text-(--muted-fg)">Lena Vasquez</p></div></li>
-      </ul>
-    </aside>
-
-  </div>
-</a>
+    </a>
 </section>
